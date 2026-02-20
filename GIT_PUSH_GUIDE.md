@@ -72,3 +72,9 @@ git log --oneline
 ```cmd
 git diff --cached
 ```
+
+
+cd node_api
+git add .
+git commit -m "update code"
+git push origin main
