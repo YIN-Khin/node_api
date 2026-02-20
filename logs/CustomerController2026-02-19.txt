@@ -1,0 +1,2 @@
+[19/02/2026 21:03:00] notNull Violation: Customer.customer_id cannot be null
+[19/02/2026 21:04:04] notNull Violation: Customer.customer_id cannot be null
