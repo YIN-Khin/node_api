@@ -45,11 +45,11 @@ const OrderItems = require("./src/model/OrderItem");
 // Note: Products and Brands already have associations defined in their model files
 
 // Sales associations
-Sales.belongsTo(PaymentMethods, {
-  foreignKey: "pay_method",
-  targetKey: "code",
-  onDelete: "CASCADE",
-});
+// Sales.belongsTo(PaymentMethods, {
+//   foreignKey: "pay_method",
+//   targetKey: "code",
+//   onDelete: "CASCADE",
+// });
 
 Sales.hasMany(SaleItemsDetail, {
   foreignKey: "sale_id",
@@ -135,7 +135,7 @@ TelegramRoute(app);
 //Route to Controller
 //====================================
 sequelize
-  .sync()
+  .sync({ alter: true })
   .then(() => {
     console.log("Database synced successfully");
     app.listen(3000, function () {

@@ -104,9 +104,15 @@ const createSale = async (req, res) => {
       sub_total,
       tax,
       pay_method,
+      qr_code,
+      customer_id,
       create_by,
       items = [],
     } = req.body;
+
+    if (pay_method === 'KHQR' && !qr_code) {
+      return res.status(400).json({ success: false, message: "QR code is required for KHQR payment" });
+    }
 
     const sale_id = await generateSaleId();
     const now = new Date();
@@ -120,6 +126,8 @@ const createSale = async (req, res) => {
         sub_total,
         tax,
         pay_method,
+        qr_code,
+        customer_id,
         create_by,
         created_on: now,
       },
@@ -178,6 +186,7 @@ const updateSale = async (req, res) => {
       sub_total,
       tax,
       pay_method,
+      qr_code,
       changed_by,
       items,
     } = req.body;
@@ -194,6 +203,7 @@ const updateSale = async (req, res) => {
         sub_total,
         tax,
         pay_method,
+        qr_code,
         changed_by,
         changed_on: new Date(),
       },

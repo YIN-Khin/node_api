@@ -41,6 +41,14 @@ const Sales = sequelize.define(
       type: DataTypes.STRING(100),
       allowNull: false,
     },
+    qr_code: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    customer_id: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+    },
     create_by: {
       type: DataTypes.STRING(100),
       allowNull: false,
