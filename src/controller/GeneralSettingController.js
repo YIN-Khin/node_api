@@ -1,4 +1,6 @@
 const GeneralSetting = require("../model/GeneralSettingModel");
+const Products = require("../model/ProductModel");
+const { checkMultipleProductsStock } = require("../utils/stockAlert");
 const logError = require("../util/service");
 
 // GET general settings (usually only one record)
@@ -85,8 +87,46 @@ const updateGeneralSettings = async (req, res) => {
   }
 };
 
+// POST scan all products and send alerts for low/out of stock items
+const scanAllProductsForAlerts = async (req, res) => {
+  try {
+    console.log('\n🔍 SCAN ALL PRODUCTS - Starting...');
+    
+    const products = await Products.findAll();
+    
+    if (!products || products.length === 0) {
+      console.log('❌ No products found in database');
+      return res.status(404).json({
+        success: false,
+        message: "No products found",
+      });
+    }
+    
+    console.log(`✅ Found ${products.length} products to scan`);
+    console.log('='.repeat(70));
+    
+    // Check all products and send alerts (non-blocking)
+    checkMultipleProductsStock(products).catch((err) =>
+      console.error("Scan products alert error:", err.message)
+    );
+    
+    res.status(200).json({
+      success: true,
+      message: `Scanning ${products.length} products for stock alerts...`,
+      data: {
+        totalProducts: products.length,
+        message: "Alerts will be sent to Telegram for low/out of stock products"
+      }
+    });
+  } catch (error) {
+    console.error('❌ Scan error:', error);
+    logError("GeneralSettingController", error, res);
+  }
+};
+
 module.exports = {
   getGeneralSettings,
   createGeneralSettings,
   updateGeneralSettings,
+  scanAllProductsForAlerts,
 };

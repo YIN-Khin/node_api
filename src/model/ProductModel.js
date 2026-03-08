@@ -43,7 +43,7 @@ const Products = sequelize.define(
       defaultValue: null,
     },
     unit_cost: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL(10, 2), // Supports up to 99999999.99
       allowNull: true,
       defaultValue: null,
     },

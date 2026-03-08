@@ -19,6 +19,7 @@ var SettingRoute = require("./src/route/SettingRoute");
 var StoreInfoRoute = require("./src/route/StoreInfoRoute");
 var GeneralSettingRoute = require("./src/route/GeneralSettingRoute");
 var TelegramRoute = require("./src/route/TelegramRoute");
+var KHQRRoute = require("./src/route/KHQRRoute");
 
 // Importing routes to be used in server.js /index.js
 //===========================================================
@@ -131,11 +132,12 @@ SettingRoute(app);
 StoreInfoRoute(app);
 GeneralSettingRoute(app);
 TelegramRoute(app);
+KHQRRoute(app);
 
 //Route to Controller
 //====================================
 sequelize
-  .sync({ alter: true })
+  .sync({ alter: false })
   .then(() => {
     console.log("Database synced successfully");
     app.listen(3000, function () {
