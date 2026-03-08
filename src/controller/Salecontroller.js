@@ -307,7 +307,7 @@ const SaleItemsDetail = require("../model/SaleItemDetail");
 const Products = require("../model/ProductModel");
 const sequelize = require("../config/db");
 const { alertNewSale } = require("../utils/telegramBot");
-const { checkAndAlertStockLevels } = require("../utils/stockAlert");
+const { checkMultipleProductsStock } = require("../utils/stockAlert");
 
 const generateSaleId = async () => {
   const timestamp = Date.now();
@@ -499,7 +499,12 @@ const createSale = async (req, res) => {
       console.error("Sale telegram alert error:", err.message)
     );
 
-    checkAndAlertStockLevels(affectedProductIds).catch((err) =>
+    // Fetch updated products for stock alerts
+    const affectedProducts = await Products.findAll({
+      where: { prd_id: affectedProductIds }
+    });
+
+    checkMultipleProductsStock(affectedProducts).catch((err) =>
       console.error("Stock telegram alert error:", err.message)
     );
 
