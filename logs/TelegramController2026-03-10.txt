@@ -1,0 +1,4 @@
+[10/03/2026 17:04:59] Validation error
+[10/03/2026 17:04:59] Validation error
+[10/03/2026 17:05:25] Data truncated for column 'is_alert' at row 1
+[10/03/2026 17:05:33] Data truncated for column 'is_alert' at row 1
